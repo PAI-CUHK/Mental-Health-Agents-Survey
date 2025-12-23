@@ -31,7 +31,7 @@ headers = {"User-Agent": "Mozilla/5.0"}
 
 for i in tqdm(range(len(urls)), desc="Downloading arxiv papers"):
     response = requests.get(urls[i], headers=headers, allow_redirects=True)
-    pdf_url = response.url + '.pdf'
+    pdf_url = response.url.replace('/abs/', '/pdf/')
     response = requests.get(pdf_url)
     if response.status_code == 200:
         with open(f"arxiv/{titles[i]}.pdf", "wb") as f:

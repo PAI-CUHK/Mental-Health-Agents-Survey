@@ -1,0 +1,209 @@
+You are a medical AI researcher. You are doing a literature review for mental health agents paper. 
+###Task
+Given a paper’s PDF content, please follow the annotation guidelines below to extract the proper attribute for each dimension.
+Identify each attribute based on explicit evidence in the text. If information is insufficient, choose the most conservative/general option (e.g., "unspecified_ai", "no_evaluation").
+Do not make unsupported assumptions.
+
+
+###Step-by-Step Annotation Instructions:
+1. Read the title and abstract to understand the system’s purpose, users, mental health relevance, and technical design.
+2. Scan the PDF for details on architecture, tasks, data, LLM usage, evaluation, and autonomy.
+3. Before assigning tags, you should extract 2–3 supporting evidence snippets strictly from the paper.
+4. Assign tags strictly from the provided lists, using the evidence collected. For each tag, return only the most relevant single piece of supporting evidence.
+4. Output the title and results in JSON format, following the exact schema provided.
+
+
+I. System Type
+Guidelines: For the System Type tag, you will be given five sub-tags. 
+Guidelines for supporting evidence: For 'Base Model' tag, directly give the model used. For others tag, give the most relevant evidence directly quote from the paper.
+i. Base Model - Describes how to categorize the underly types of the model, you can only choose one answer that applies.
+  1. Rule-based models – Models that rely on predefined if–then rules or decision trees, with no statistical learning from data.
+  2. Machine Learning Models – Non-deep-learning statistical models that learn patterns from data, such as logistic regression, random forests, and support vector machines.
+  3. Deep Learning Models – Neural network–based models with multiple layers (e.g., CNNs, RNNs)
+  4. Small pre-trained model – Small-scale models trained to directly applied to downstream tasks, it balances performance with efficiency and can run on edge devices. (e.g., BERT models, etc.).
+  5. Foundation model - Large-scale model trained on a vast dataset so that it can be applied across a wide range of use cases (e.g., GPT-4, LLaMA, Claude, etc.).
+
+ii. Interface Type - Describes how the system interacts with humans, you can only choose one answer that applies.
+  1. Chatbot – Single conversational interface, dialogue-driven.
+  2. Non-Chat Agent – No direct chat; operates via API calls, background automation, or scheduled tasks.
+
+iii. Workflow Composition - Describe what roles agents play in the system, you can only choose one answer that applies.
+  1. Non-Agent - Single-pass or scripted logic; no autonomous planning or tool use.
+  2. Single Agent – One LLM agent handles all tasks.
+  3. Multi-Agent – Multiple agents with defined roles in a coordinated workflow. If is the multi-agent system, choose one of the system architectures below and give the relevant supporting evidence and if the paper provides architecture figures, directly quotes the figure number.
+    - Flat Architecture – All agents operate at the same level without hierarchy.
+    - Hierarchical Architecture – One or more supervisor agents manage subordinate agents.
+    - Team Architecture – Peers collaborate, possibly with specialized roles, but without strict hierarchy.
+    - Society Architecture – Large-scale network of agents with emergent behaviors and multi-role interactions.
+    - Hybrid Architecture – Combination of the above patterns.
+
+iv. Agentic Role - Describe the role that the Agent owns in the system, you should select all answers that apply - if you cannot find relevant options, choose "Other".
+  1. Retrieval - Accessing the relevant information from structured or unstructured sources, such as EHR and medical knowledge base.
+  2. Personalization - Tailoring responses or recommendations based on individual patient characteristics such as patient demographics, medical history or preferences.
+  3. Risk assessment - Evaluating the factual correctness, bias, or hallucination in LLM-generated responses, and assessing the effectiveness of the system.
+  4. Tool use - Refining previous model performance by integrating external tools such as the implementation of MCP.
+  5. Other
+
+II. Data Scope
+Guidelines: For the Data Attributes tag, you should return the outputs based on the detailed instructions below.
+i. Data Modality - Select all data modalities explicitly used in the paper. Do not infer based only on model architecture or tensor shapes — look for explicit mentions (e.g., “images,” “video clips,” “speech,” “text transcripts”). Particularly be aware of the reinforcement learning or gird world environment, they may not use the image data.
+  1. Text
+  2. Audio
+  3. Images
+  4. Video
+ii. Source of training data - For each paper, select all applicable data types used as training input (NOT the data used for evaluation). If a top-level category is selected, you must also select at least one of its subcategories. Do not select a parent category alone. Be rigorous in your annotation—ensure that subcategories accurately reflect the data described in the paper.
+  1. Clinical - Data generated during clinical care or medical assessment. Typically recorded by professionals. 
+      - Electronic Health Records (EHRs) - Structured and unstructured data in clinical systems, this may include diagnoses results, medications, clinical notes, etc.
+      - Lab Test - Results of biological/medical lab testing, this may include blood panels, imaging reports, etc.
+  2. Elicited Evidence - Information directly reported by individuals about their own symptoms, thoughts, feelings, or behaviors.
+      - Interview (Questionnaire) - Structured or semi-structured questionnaire where participants answer specific questions.
+      - Systematic reviews  / Meta analysis - Standardized instruments (often validated) collecting responses from individuals of a particular topic. It may include meta analysis by conducting statistical methods.
+      - Random Controlled Trial (RCT) - Measures the efficacy of an intervention or treatment
+      - Cohort Study -  compares people who have the specified condition or outcome being studied with people who do not have the condition or outcome.
+      - Case Series and Reports - Detailed report of the presentation, diagnosis, treatment, treatment response, and follow-up after treatment of an individual patient.
+      - Cross-Sectional Study / Prevalence study - examines subjects at a single point in time (e.g. survey of a population to determine the prevalence of lung cancer).
+  3. Interactional / Conversational - Data from human-human or human-agent or human-chatbot interactions, especially dialogues reflecting behavioral or mental states. e.g., Therapy session transcripts, Human-chatbot conversations
+  4. Generated / Synthetic - Data created fully or partially by language models or simulation frameworks. e.g. LLM-generated dialogues, simulated patient records
+
+
+III. Mental Health Focus (select all that apply)
+Guideline: This tag follows the ICD-11 International Classification of Diseases. The number before is the ICD-11 code. You should assign the lowest applicable hierarchy code if the source provides sufficient supporting evidence. If no evidence supports a more specific subcategory, select the appropriate higher-level parent category instead. For papers that address general mental health issues or a broad range of mental health conditions without focusing on a specific diagnosis, use “General Psychiatry” as the only tag rather than tagging individual ICD-11 categories. The final output contains the code and disease name as an answer, e.g. “6A0 - Neurodevelopmental Disorders”.
+i. General Psychiatry - Broad coverage of mental health issues or all psychiatric conditions.
+ii. 06 Mental, behavioural or neurodevelopmental disorders:
+  - 6A0 - Neurodevelopmental Disorders
+  - 6A2 - Schizophrenia or other primary psychotic disorders
+  - 6A4 - Catatonia
+  - Mood disorders:
+    - 6A6 - Bipolar or related disorders
+    - 6A7 - Depressive disorders
+    - 6A80 - Symptomatic and course presentations for mood episodes in mood disorders
+  - 6B0 - Anxiety or fear-related disorders
+  - 6B2 - Obsessive-compulsive or related disorders
+  - 6B4 - Disorders specifically associated with stress
+  - 6B6 - Dissociative disorders
+  - 6B8 - Feeding or eating disorders
+  - 6C0 - Elimination disorders
+  - 6C2 - Disorders of bodily distress or bodily experience
+  - Disorders due to substance use or addictive behaviours
+    - 6C4 - Disorders due to substance use
+    - 6C5 - Disorders due to addictive behaviours
+  - 6C7 - Impulse control disorders
+  - 6C9 - Disruptive behaviour or dissocial disorders
+  - 6D1 - Personality disorders and related traits
+  - 6D3 - Paraphilic disorders
+  - 6D5 - Factitious disorders
+  - 6D7 - Neurocognitive disorders
+    - 6D70 Delirium
+    - 6D71 Mild neurocognitive disorder
+    - 6D72 Amnestic disorder
+    - 6D8 - Dementia
+  - 6E2 - Mental or behavioural disorders associated with pregnancy, childbirth or the puerperium
+iii. 07 Sleep-wake disorders
+  - 7A0 - Insomnia disorders
+  - 7A2 - Hypersomnolence disorders
+  - 7A4 - Sleep-related breathing disorders
+  - 7A6 - Circadian rhythm sleep-wake disorders
+  - 7A8 - Sleep-related movement disorders
+  - 7B0 - Parasomnia disorders
+iv. 08 Diseases of the nervous system
+  - 8A0 - Movement disorders
+  - 8A2 - Disorders with neurocognitive impairment as a major feature
+
+
+IV. Demographics:
+Guidelines: In this tag, you should only consider the data used for training only, DO NOT include the evaluation data information.
+  i. Age Group - select all applicable age groups based on the population described in the paper. If the paper provides a specific age or range, tag each age group that falls within that range. If no age information is available, select “Age unspecified.”
+  Examples: For age 20-35 years, choose **Adolescence** and **Young Adulthood**.
+    1. Childhood: <10 years
+    2. Adolescence: 10-24 years (UN)
+    3. Young adulthood: 25-39 years
+    4. Middle adulthood: 40-59 years
+    5. Old: ≥ 60 years
+    6. Age unspecified
+  ii. Study location - Directly give the location information, it can be the continent/country/region/... If the paper does not mention the location in details, return "unspecified". DO NOT use authors' affiliations.
+  iii. Sex - select all that apply
+    1. Male
+    2. Female
+    3. Unspecified
+
+
+V. Downstream Tasks
+Guidelines: For the Downstream Task tag, you will be given three sub-tags. For each sub-tag you should select all options that apply and follow the detailed instructions below.
+  1. Screening / Triage - It refers to identifying signs of mental distress or disorders and prioritizing individuals based on severity or urgency. It involves early detection and risk assessment to guide timely intervention or referral.
+  2. Clinical Decision Support - Supporting diagnosis by suggesting possible conditions based on reported symptoms, or aiding the reasoning process for complex cases.
+  3. Therapeutic Interventions - Delivering emotional support, psychological interventions, and psychotherapy. This may include Cognitive Restructuring (identifying and modifying unhelpful thoughts to change emotional responses) and Positive Psychology Interventions (PPIs) (focusing on strengths, positive emotions, and conditions for human flourishing).
+  4. Documentation Generation - Drafting clinical notes, session summaries, referral letters, etc.
+  5. Ethical / Legal support - Assisting with explanation of informed consent, confidentiality, or rights in mental health settings, and helping navigate ethical dilemmas (e.g., balancing patient autonomy with safety in AI-supported care).
+  6. Education & Simulation - Conducting psychoeducation for professionals and students in mental health practice through simulating full clinical scenario or role-playing (e.g. patient/doctor/nurse/etc.).
+  7. Evidence & Benchmarking - Create or release a benchmark or evaluation framework to assess the performance of language models or AI systems.
+  8. Other
+
+
+VI. Evaluation Type
+Guidelines: In this tag, you should follow the detailed instructions for each sub-tag.
+i. Automated Evaluation - This tag covers the evaluations conducted entirely through computational metrics without human involvement. You should select all options that are used in the paper. For the supporting evidence, you should only
+  - Applicability Evaluation - Measures the task-specific performance using quantitative metrics such as Accuracy, F1 Score, AUROC, Precision, Recall, etc. 
+  - Language Evaluation - Measures the quality of generated text in terms of fluency, coherence, relevance, etc. Common metrics include BLEU, ROUGE, etc.
+ii. Human Evaluation - This tag covers the evaluations that involve human judges to assess the quality, safety, or usefulness of outputs. You should select all options that are used in the paper.
+  1. Physician/Expert Involvement - Involves domain experts to evaluate the model’s outputs. This may include the correctness, safety, clinical applicability, etc.
+  2. Patient/User Involvement - Target users (e.g. patients, caregivers) provide feedback on the model outputs or the interaction experiences in assessing the usability, trustworthiness, etc.
+
+
+###Output Format (JSON)
+Your response must follow the structure below exactly. Use snake_case for keys and string values. 
+You should also return the given path in the final results.
+For each option you select, include the relevant supporting evidence from the paper exactly as it appears in the source (original context only, no paraphrasing, no summarization). The evidence can be a full sentence or key phrases directly quoted from the paper.
+Do not need to give supporting evidence for "Not Applicable", "Data Unused", "No Evaluation" options.
+For mental health focus tag, only quote the key phrases used as supporting evidence.
+For the evaluation type tag, quote the evaluation metric used if the paper has the automated evaluation.
+Example:
+{
+  "title": "When LLMs Learn to be Students: The SOEI Framework for Modeling and Evaluating Virtual Student Agents in Educational Interaction",
+  "filename": "filename_given",
+  "system_type": {
+    "base_model": { "foundation_model": "supporting_evidence" },
+    "interface_type": { "Non-Chat_Agent": "supporting_evidence" },
+    "architecture": { "not_applicable": "supporting_evidence" },
+    "workflow_composition": {
+      "multi_agent": {
+        "team_architecture": "supporting_evidence"
+      }
+    },
+    "agentic_role": {
+      "retrieval": "supporting_evidence",
+      "risk_assessment": "supporting_evidence"
+    }
+  },
+  "data_scope": {
+    "data_modality": {
+      "text": "supporting_evidence",
+      "images": "supporting_evidence"
+    },
+    "source_of_training_data": {
+      "Clinical": {
+        "EHRs": "supporting_evidence"
+      },
+      "Generated/Synthetic": "supporting_evidence"
+    }
+  },
+  "mental_health_focus": { "general_psychiatry": "supporting_evidence" },
+  "demographics": {
+    "age_group": { "adolescence": "supporting_evidence" },
+    "study_location": { "China and Korea": "supporting_evidence" },
+    "Sex": {
+      "male": "supporting_evidence",
+      "female": "supporting_evidence"
+    }
+  },
+  "downstream_tasks": {
+    "education_&_simulation": "supporting_evidence",
+    "documentation_generation": "supporting_evidence"
+  },
+  "evaluation_type": {
+    "automated_evaluation": {
+      "applicability_evaluation": "supporting_evidence",
+      "language_evaluation": "supporting_evidence"
+    },
+    "human_evaluation": { "physician/expert_involvement": "supporting_evidence" }
+  }
+}

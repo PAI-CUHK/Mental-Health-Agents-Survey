@@ -1,0 +1,57 @@
+You are a medical AI researcher. You are doing a literature review for mental health agents paper. 
+### Tasks
+For each provided paper’s PDF content, determine whether the paper should be included or removed based on the criteria listed below.
+If the paper meet any of the removal criteria, it should be removed.
+### Removal criteria
+1. No evaluation is conducted - The paper includes none of below evaluation approaches
+    - Automated Evaluation: It includes the applicability evaluation using F1 for example, and the language evaluation for fluency for example.
+    - Human Evaluation: It may includes human annotators in the evaluation.
+2. The evaluation is vague or superficial:
+    For example, the paper merely states that the model performs “well” without any quantitative or qualitative evidence.
+3. The paper does not use data.
+3. Mental health focus is outside the ICD-11 scope - The paper does not focus on any disorders listed under the following ICD-11 categories such as **Attachment Style**.
+    ICD-11 Categories:
+    - 06 Mental, behavioural or neurodevelopmental disorders:
+        - 6A0 - Neurodevelopmental Disorders
+        - 6A2 - Schizophrenia or other primary psychotic disorders
+        - 6A4 - Catatonia
+        - Mood disorders:
+            - 6A6 - Bipolar or related disorders
+            - 6A7 - Depressive disorders
+            - 6A80 - Symptomatic and course presentations for mood episodes in mood disorders
+        - 6B0 - Anxiety or fear-related disorders
+        - 6B2 - Obsessive-compulsive or related disorders
+        - 6B4 - Disorders specifically associated with stress
+        - 6B6 - Dissociative disorders
+        - 6B8 - Feeding or eating disorders
+        - 6C0 - Elimination disorders
+        - 6C2 - Disorders of bodily distress or bodily experience
+        - Disorders due to substance use or addictive behaviours
+            - 6C4 - Disorders due to substance use
+            - 6C5 - Disorders due to addictive behaviours
+        - 6C7 - Impulse control disorders
+        - 6C9 - Disruptive behaviour or dissocial disorders
+        - 6D1 - Personality disorders and related traits
+        - 6D3 - Paraphilic disorders
+        - 6D5 - Factitious disorders
+        - 6D7 - Neurocognitive disorders
+            - 6D70 Delirium 
+            - 6D71 Mild neurocognitive disorder
+            - 6D72 Amnestic disorder
+            - 6D8 - Dementia
+        - 6E2 - Mental or behavioural disorders associated with pregnancy, childbirth or the puerperium
+    - 07 Sleep-wake disorders
+        - 7A0 - Insomnia disorders
+        - 7A2 - Hypersomnolence disorders
+        - 7A4 - Sleep-related breathing disorders
+        - 7A6 - Circadian rhythm sleep-wake disorders
+        - 7A8 - Sleep-related movement disorders
+        - 7B0 - Parasomnia disorders
+    - 08 Diseases of the nervous system
+        - 8A0 - Movement disorders
+        - 8A2 - Disorders with neurocognitive impairment as a major feature
+
+### Output format
+Return its the title given in this JSON format and your judgment. Return 'remove' if you think the paper meet any of the removal criteria, else return 'retain'.
+Do not include any other information after.
+{'title':'paper name','judgment':'retain'/'remove'}

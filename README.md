@@ -16,7 +16,7 @@ We remove duplicates by computing Jaccard similarity over a concatenated string 
 
 Implementation details are in `filtering/duplicates_removal.py`.
 
-### 2.3 LLM-assist filterings and human screening
+### 2.3 LLM-assisted filterings and human screening
 We apply a three stage filtering workflow to obtain a final set of primary system studies suitable for synthesis.
 
 1. First filtering: Eligibility check  
@@ -37,7 +37,6 @@ Implementation details are in `filtering/filter3.py`.
 4. Human screening  
 We then conduct a full human review of the remaining papers. The final included set contains 326 papers. Paper metadata are available in `data/final_all_with_dates.csv`.
 
-## 4) LLM-assist annotation
 ## 4) LLM assisted annotation
 
 ### 4.1 Six dimensions

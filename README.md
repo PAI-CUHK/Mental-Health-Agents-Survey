@@ -30,7 +30,7 @@ Implementation details are in `filtering/filter2.py`.
 **Downloading**
 Before the third filtering stage, we downloaded the full texts of the retained papers to support content based screening. The script `download/download.py` can help to download papers from arXiv and medRxiv.
 
-3. Content based exclusions with LLM assistance  
+3. Third filtering: Content based exclusions with LLM assistance  
 We remove records that are unlikely to support downstream synthesis. This includes papers that use no data, report no evaluation or only superficial evaluation, or fall outside our ICD 11 based mental health scope. The prompt used for this step is provided below.  
 Implementation details are in `filtering/filter3.py`.
 

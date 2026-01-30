@@ -1,5 +1,7 @@
 # Mental Health Agents Survey
 
+This repository supports the paper "A Scoping Review of Artificial Intelligence Agents in Mental Health."
+
 ## 1) Overview
 We conduct a scoping review of mental health AI agent systems published from Jan 1st 2023 to Dec 31, 2025, using a six dimension audit framework that characterizes each system by its system type (base model lineage, interface modality, and workflow composition), data scope (modalities and provenance), mental health focus (mapped to ICD 11 diagnostic groupings), demographic coverage (age strata, geography, and sex representation), downstream tasks (screening and triage, clinical decision support, therapeutic intervention, documentation, ethical and legal support, and education or simulation), and evaluation types (automated metrics, language quality benchmarks, safety stress tests, expert review, and clinician or patient involvement).
 
